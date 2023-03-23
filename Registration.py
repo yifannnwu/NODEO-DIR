@@ -6,6 +6,7 @@ from Loss import *
 from NeuralODE import *
 from Utils import *
 
+
 def main(config):
     device = torch.device(config.device)
     fixed = load_nii(config.fixed)
@@ -113,9 +114,11 @@ def evaluation(config, device, df, df_with_grid):
     dice_move2fix = dice(warped_seg.unsqueeze(0).unsqueeze(0).detach().cpu().numpy(), fixed_seg, label)
     print('Avg. dice on %d structures: ' % len(label), np.mean(dice_move2fix[0]))
 
+
 def save_result(config, df, warped_moving):
-    save_nii(df.permute(2,3,4,0,1).detach().cpu().numpy(), '%s/df.nii.gz' % (config.savepath))
+    save_nii(df.permute(2, 3, 4, 0, 1).detach().cpu().numpy(), '%s/df.nii.gz' % (config.savepath))
     save_nii(warped_moving.detach().cpu().numpy(), '%s/warped.nii.gz' % (config.savepath))
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

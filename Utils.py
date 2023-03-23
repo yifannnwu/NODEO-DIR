@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+
 class SpatialTransformer(nn.Module):
     """
     N-D Spatial Transformer
@@ -52,15 +53,18 @@ class SpatialTransformer(nn.Module):
         else:
             return F.grid_sample(src, new_locs, align_corners=True, mode=self.mode)
 
+
 def load_nii(path):
     X = nib.load(path)
     X = X.get_fdata()
     return X
 
+
 def save_nii(img, savename):
     affine = np.diag([1, 1, 1, 1])
     new_img = nib.nifti1.Nifti1Image(img, affine, header=None)
     nib.save(new_img, savename)
+
 
 def generate_grid3D_tensor(shape):
     x_grid = torch.linspace(-1., 1., shape[0])
@@ -73,6 +77,7 @@ def generate_grid3D_tensor(shape):
     grid = torch.stack([z_grid, y_grid, x_grid], dim=0)
     return grid
 
+
 def dice(array1, array2, labels):
     """
     Computes the dice overlap between two arrays for a given set of integer labels.
@@ -84,5 +89,3 @@ def dice(array1, array2, labels):
         bottom = np.maximum(bottom, np.finfo(float).eps)  # add epsilon
         dicem[idx] = top / bottom
     return dicem
-
-

@@ -1,6 +1,7 @@
 import torch
 import torch.nn.functional as F
 
+
 class NCC(torch.nn.Module):
     """
     NCC with cumulative sum implementation for acceleration. local (over window) normalized cross correlation.
@@ -68,6 +69,7 @@ class NCC(torch.nn.Module):
         # return negative cc.
         return 1. - torch.mean(cc2).float()
 
+
 def JacboianDet(J):
     if J.size(-1) != 3:
         J = J.permute(0, 2, 3, 4, 1)
@@ -87,16 +89,19 @@ def JacboianDet(J):
     Jdet = Jdet0 - Jdet1 + Jdet2
     return Jdet
 
+
 def neg_Jdet_loss(J):
     Jdet = JacboianDet(J)
     neg_Jdet = -1.0 * (Jdet - 0.5)
     selected_neg_Jdet = F.relu(neg_Jdet)
     return torch.mean(selected_neg_Jdet ** 2)
 
+
 def smoothloss_loss(df):
     return (((df[:, :, 1:, :, :] - df[:, :, :-1, :, :]) ** 2).mean() + \
-     ((df[:, :, :, 1:, :] - df[:, :, :, :-1, :]) ** 2).mean() + \
-     ((df[:, :, :, :, 1:] - df[:, :, :, :, :-1]) ** 2).mean())
+            ((df[:, :, :, 1:, :] - df[:, :, :, :-1, :]) ** 2).mean() + \
+            ((df[:, :, :, :, 1:] - df[:, :, :, :, :-1]) ** 2).mean())
+
 
 def magnitude_loss(all_v):
     all_v_x_2 = all_v[:, :, 0, :, :, :] * all_v[:, :, 0, :, :, :]
@@ -104,4 +109,3 @@ def magnitude_loss(all_v):
     all_v_z_2 = all_v[:, :, 2, :, :, :] * all_v[:, :, 2, :, :, :]
     all_v_magnitude = torch.mean(all_v_x_2 + all_v_y_2 + all_v_z_2)
     return all_v_magnitude
-

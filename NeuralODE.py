@@ -3,6 +3,7 @@ import torch
 from torch import Tensor
 from torch import nn
 
+
 def RK(z0, n_steps, f, h):
     '''
     4th Order Runge Kutta Numerical Solver
@@ -24,6 +25,7 @@ def RK(z0, n_steps, f, h):
         z = z + (1.0 / 6.0) * (k1 + 2 * k2 + 2 * k3 + k4)
     return z
 
+
 def Euler(z0, n_steps, f, step_size):
     '''
     Simplest Euler ODE initial value solver
@@ -40,6 +42,7 @@ def Euler(z0, n_steps, f, step_size):
     for i_step in range(int(n_steps)):
         z = z + step_size * f(z)
     return z
+
 
 class ODEF(nn.Module):
     def forward_with_grad(self, z, grad_outputs):
