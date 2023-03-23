@@ -127,16 +127,16 @@ if __name__ == '__main__':
                         dest="savepath", default='./result',
                         help="path for saving results")
     parser.add_argument("--fixed", type=str,
-                        dest="fixed", default='./data/OAS1_0001_MR1/brain.nii.gz',
+                        dest="fixed", default='./data/OASIS_OAS1_0001_MR1/slice_orig.nii.gz',
                         help="fixed image data path")
     parser.add_argument("--moving", type=str,
-                        dest="moving", default='./data/OAS1_0002_MR1/brain.nii.gz',
+                        dest="moving", default='./data/OASIS_OAS1_0002_MR1/slice_orig.nii.gz',
                         help="moving image data path")
     parser.add_argument("--fixed_seg", type=str,
-                        dest="fixed_seg", default='./data/OAS1_0001_MR1/brain_aseg.nii.gz',
+                        dest="fixed_seg", default='./data/OASIS_OAS1_OAS1_0001_MR1/brain_aseg.nii.gz',
                         help="fixed image segmentation data path")
     parser.add_argument("--moving_seg", type=str,
-                        dest="moving_seg", default='./data/OAS1_0002_MR1/brain_aseg.nii.gz',
+                        dest="moving_seg", default='./data/OASIS_OAS1_OAS1_0002_MR1/brain_aseg.nii.gz',
                         help="moving image segmentation data path")
     # Model configuration
     parser.add_argument("--ds", type=int,
