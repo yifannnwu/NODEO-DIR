@@ -105,7 +105,7 @@ class BrainNet(ODEF):
         self.bottleneck_sz = int(
             math.ceil(img_sz[0] / pow(2, self.ds)) * math.ceil(img_sz[1] / pow(2, self.ds)) * math.ceil(
                 img_sz[2] / pow(2, self.ds)))
-        self.lin1 = nn.Linear(864, self.bs, bias=bias)
+        self.lin1 = nn.Linear(960, self.bs, bias=bias)
         self.lin2 = nn.Linear(self.bs, self.bottleneck_sz * 3, bias=bias)
         self.relu = nn.ReLU()
 
@@ -121,7 +121,7 @@ class BrainNet(ODEF):
         imgy = self.img_sz[1]
         imgz = self.img_sz[2]
         # x = self.relu(self.enc_conv1(x))
-        x = F.interpolate(x, scale_factor=0.5, mode='trilinear')  # Optional to downsample the image
+        # x = F.interpolate(x, scale_factor=0.5, mode='trilinear')  # Optional to downsample the image
         x = self.relu(self.enc_conv2(x))
         x = self.relu(self.enc_conv3(x))
         x = self.relu(self.enc_conv4(x))
