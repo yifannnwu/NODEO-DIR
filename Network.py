@@ -51,7 +51,7 @@ class AveragingKernel(torch.nn.Module):
         super(AveragingKernel, self).__init__()
         self.win = win
 
-    def window_averaging(self, v):
+    def window_averaging_3d(self, v):
         win_size = self.win
         v = v.double()
 
@@ -82,8 +82,36 @@ class AveragingKernel(torch.nn.Module):
         v_win = v_win.float()
         return v_win
 
+    def window_averaging_2d(self, v):
+        win_size = self.win
+        v = v.double()
+
+        half_win = int(win_size / 2)
+        pad = [half_win + 1, half_win] * 3
+
+        v_padded = F.pad(v, pad=pad, mode='constant', value=0)  # [x+pad, y+pad, z+pad]
+
+        # Run the cumulative sum across all 3 dimensions
+        v_cs_x = torch.cumsum(v_padded, dim=2)
+        v_cs_xy = torch.cumsum(v_cs_x, dim=3)
+
+        x, y = v.shape[2:]
+
+        # Use subtraction to calculate the window sum
+        v_win = v_cs_xy[:, :, win_size:, win_size:] \
+                - v_cs_xy[:, :, win_size:, :y] \
+                - v_cs_xy[:, :, :x, win_size:] \
+                + v_cs_xy[:, :, :x, :y]
+
+        # Normalize by number of elements
+        v_win = v_win / (win_size ** 2)
+        v_win = v_win.float()
+        return v_win
+
+
+
     def forward(self, v):
-        return self.window_averaging(v)
+        return self.window_averaging_2d(v)
 
 
 class BrainNet(ODEF):
@@ -97,7 +125,8 @@ class BrainNet(ODEF):
         self.smoothing_kernel = smoothing_kernel
         self.smoothing_pass = smoothing_pass
         # self.enc_conv1 = nn.Conv3d(3, 32, kernel_size=3, stride=2, padding=1, padding_mode=padding_mode, bias=bias)
-        self.enc_conv2 = nn.Conv2d(3, 32, kernel_size=3, stride=2, padding=1, padding_mode=padding_mode, bias=bias)
+        # Make the input channel 2 for 2D image
+        self.enc_conv2 = nn.Conv2d(2, 32, kernel_size=3, stride=2, padding=1, padding_mode=padding_mode, bias=bias)
         self.enc_conv3 = nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1, padding_mode=padding_mode, bias=bias)
         self.enc_conv4 = nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1, padding_mode=padding_mode, bias=bias)
         self.enc_conv5 = nn.Conv2d(32, 32, kernel_size=3, stride=2, padding=1, padding_mode=padding_mode, bias=bias)

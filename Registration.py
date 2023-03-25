@@ -36,7 +36,7 @@ def registration(config, device, moving, fixed):
     im_shape = fixed.shape
     moving = torch.from_numpy(moving).to(device).float()
     fixed = torch.from_numpy(fixed).to(device).float()
-    # make batch dimension
+    # make batch dimension - This adds 2 dimensions
     moving = moving.unsqueeze(0).unsqueeze(0)
     fixed = fixed.unsqueeze(0).unsqueeze(0)
 
@@ -133,10 +133,10 @@ if __name__ == '__main__':
                         dest="moving", default='./data/OASIS_OAS1_0002_MR1/slice_orig.nii.gz',
                         help="moving image data path")
     parser.add_argument("--fixed_seg", type=str,
-                        dest="fixed_seg", default='./data/OASIS_OAS1_OAS1_0001_MR1/brain_aseg.nii.gz',
+                        dest="fixed_seg", default='./data/OASIS_OAS1_OAS1_0001_MR1/slice_seg24.nii.gz',
                         help="fixed image segmentation data path")
     parser.add_argument("--moving_seg", type=str,
-                        dest="moving_seg", default='./data/OASIS_OAS1_OAS1_0002_MR1/brain_aseg.nii.gz',
+                        dest="moving_seg", default='./data/OASIS_OAS1_OAS1_0002_MR1/slice_seg24.nii.gz',
                         help="moving image segmentation data path")
     # Model configuration
     parser.add_argument("--ds", type=int,
