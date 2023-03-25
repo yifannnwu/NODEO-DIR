@@ -116,7 +116,7 @@ def evaluation(config, device, df, df_with_grid):
 
 
 def save_result(config, df, warped_moving):
-    save_nii(df.permute(2, 3, 4, 0, 1).detach().cpu().numpy(), '%s/df.nii.gz' % (config.savepath))
+    save_nii(df.permute(2, 3, 0, 1).detach().cpu().numpy(), '%s/df.nii.gz' % (config.savepath))
     save_nii(warped_moving.detach().cpu().numpy(), '%s/warped.nii.gz' % (config.savepath))
 
 
