@@ -87,7 +87,7 @@ class AveragingKernel(torch.nn.Module):
         v = v.double()
 
         half_win = int(win_size / 2)
-        pad = [half_win + 1, half_win] * 3
+        pad = [half_win + 1, half_win] * 2
 
         v_padded = F.pad(v, pad=pad, mode='constant', value=0)  # [x+pad, y+pad, z+pad]
 

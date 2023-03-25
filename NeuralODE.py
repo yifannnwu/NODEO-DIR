@@ -40,7 +40,8 @@ def Euler(z0, n_steps, f, step_size):
     '''
     z = z0
     for i_step in range(int(n_steps)):
-        z = z + step_size * f(z)
+        function_value = f(z)
+        z = z + step_size * function_value
     return z
 
 
