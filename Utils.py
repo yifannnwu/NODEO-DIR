@@ -57,6 +57,9 @@ class SpatialTransformer(nn.Module):
 def load_nii(path):
     X = nib.load(path)
     X = X.get_fdata()
+    # Remove the last dimension if it is 1
+    if X.shape[-1] == 1:
+        X = X[..., 0]
     return X
 
 

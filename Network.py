@@ -140,7 +140,7 @@ class BrainNet(ODEF):
         )
 
         self.lin1 = nn.Linear(960, self.bs, bias=bias)
-        self.lin2 = nn.Linear(self.bs, self.bottleneck_sz * 3, bias=bias)
+        self.lin2 = nn.Linear(self.bs, self.bottleneck_sz * 2, bias=bias) # 2 for 2D image
         self.relu = nn.ReLU()
 
         # Create smoothing kernels
@@ -160,7 +160,7 @@ class BrainNet(ODEF):
         x = x.view(-1)
         x = self.relu(self.lin1(x))
         x = self.lin2(x)
-        x = x.view(1, 3, int(math.ceil(imgx / pow(2, self.ds))), int(math.ceil(imgy / pow(2, self.ds))))
+        x = x.view(1, 2, int(math.ceil(imgx / pow(2, self.ds))), int(math.ceil(imgy / pow(2, self.ds))))
         for _ in range(self.ds):
             x = F.interpolate(x, scale_factor=2, mode='bilinear', align_corners=False)
         # Apply Gaussian/Averaging smoothing
