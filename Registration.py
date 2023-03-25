@@ -53,7 +53,7 @@ def registration(config, device, moving, fixed):
     # training loop
     scale_factor = torch.tensor(im_shape).to(device).view(1, 3, 1, 1, 1) * 1.
     ST = SpatialTransformer(im_shape).to(device)  # spatial transformer to warp image
-    grid = generate_grid3D_tensor(im_shape).unsqueeze(0).to(device)  # [-1,1]
+    grid = generate_grid2D_tensor(im_shape).unsqueeze(0).to(device)  # [-1,1]
 
     # Define optimizer
     optimizer = torch.optim.Adam(ode_train.parameters(), lr=config.lr, amsgrad=True)

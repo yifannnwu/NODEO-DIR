@@ -77,6 +77,16 @@ def generate_grid3D_tensor(shape):
     grid = torch.stack([z_grid, y_grid, x_grid], dim=0)
     return grid
 
+def generate_grid2D_tensor(shape):
+    x_grid = torch.linspace(-1., 1., shape[0])
+    y_grid = torch.linspace(-1., 1., shape[1])
+    x_grid, y_grid = torch.meshgrid(x_grid, y_grid)
+
+    # Note that default the dimension in the grid is reversed:
+    # z, y, x
+    grid = torch.stack([y_grid, x_grid], dim=0)
+    return grid
+
 
 def dice(array1, array2, labels):
     """
