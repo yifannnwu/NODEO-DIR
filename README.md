@@ -16,3 +16,8 @@ CANDI: [2, 3, 4, 5, 7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 24, 26, 28, 41, 42
   pages={20804--20813},
   year={2022}
 }
+
+# Notes
+For Figure 4, any images can be chosen.  
+Link to the [paper](https://arxiv.org/pdf/2108.03443.pdf)  
+Link to the [Github Page](https://github.com/yifannnwu/NODEO-DIR)
